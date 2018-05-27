@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "473928011836",
+    "firebase_url": "https://surveydatabase-53385.firebaseio.com",
+    "project_id": "surveydatabase-53385",
+    "storage_bucket": "surveydatabase-53385.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:473928011836:android:aea38bb33594e172",
+        "android_client_info": {
+          "package_name": "com.apps.brayan.surveyapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "473928011836-fn9mqpl1q9hhiadurmq9s6m2d85rjk6g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUGcfe53v6fP1CkP3G68qoA_UDuQMLHc0"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
