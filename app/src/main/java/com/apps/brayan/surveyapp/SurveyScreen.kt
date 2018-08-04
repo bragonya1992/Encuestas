@@ -6,9 +6,10 @@ import android.webkit.WebView
 import android.widget.Toast
 import android.webkit.WebViewClient
 import android.webkit.WebChromeClient
-import android.app.Activity
 import android.view.Window
-import android.view.Window.FEATURE_PROGRESS
+import com.apps.brayan.surveyapp.coreApp.JsonSurveyGenerator
+import com.apps.brayan.surveyapp.coreApp.SurveyConstants
+import com.apps.brayan.surveyapp.coreApp.SurveyManagerFile
 import kotlinx.android.synthetic.main.activity_survey_screen.*
 
 
@@ -18,8 +19,12 @@ class SurveyScreen : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         window.requestFeature(Window.FEATURE_PROGRESS)
         setContentView(R.layout.activity_survey_screen)
+        val surveyContent:String = intent.getStringExtra(SurveyConstants.SURVEY_BODY_INTENT)
+        SurveyManagerFile.setupSurveyToFile(surveyContent,this)
+        SurveyManagerFile.readFile(this)
         setupWebView(webViewSurvey)
     }
+
 
     fun setupWebView(webview: WebView){
 
@@ -38,7 +43,7 @@ class SurveyScreen : AppCompatActivity() {
             }
         })
 
-            loadUrl("file:///android_asset/surveycore/main.html")
+            loadUrl(SurveyConstants.SURVEY_DOMAIN+SurveyConstants.SURVEY_MAIN)
         }
     }
 

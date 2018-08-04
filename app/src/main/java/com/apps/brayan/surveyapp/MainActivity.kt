@@ -4,7 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import com.apps.brayan.surveyapp.coreApp.SurveyConstants
 import kotlinx.android.synthetic.main.activity_main.*
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -36,6 +38,32 @@ class MainActivity : AppCompatActivity() {
 
     fun goToSurveyScreen(){
         var intent = Intent(this,SurveyScreen::class.java)
+        intent.putExtra(SurveyConstants.SURVEY_BODY_INTENT,"{\n" +
+                " pages: [\n" +
+                "  {\n" +
+                "   name: \"page1\",\n" +
+                "   elements: [\n" +
+                "    {\n" +
+                "     type: \"radiogroup\",\n" +
+                "     name: \"question1\",\n" +
+                "     title: \"Ana me ama? si o no\",\n" +
+                "     choices: [\n" +
+                "      {\n" +
+                "       value: \"item1\",\n" +
+                "       text: \"si\"\n" +
+                "      },\n" +
+                "      {\n" +
+                "       value: \"item2\",\n" +
+                "       text: \"no\"\n" +
+                "      }\n" +
+                "     ]\n" +
+                "    }\n" +
+                "   ]\n" +
+                "  }\n" +
+                " ]\n" +
+                "}")
         startActivity(intent)
     }
+
+
 }
