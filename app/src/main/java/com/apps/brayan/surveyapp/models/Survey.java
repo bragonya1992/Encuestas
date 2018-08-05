@@ -1,5 +1,8 @@
 package com.apps.brayan.surveyapp.models;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
+@IgnoreExtraProperties
 public class Survey {
 
     public String name;
