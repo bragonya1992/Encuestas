@@ -7,9 +7,9 @@ import android.view.ViewGroup
 import com.apps.brayan.surveyapp.R
 import com.apps.brayan.surveyapp.models.Survey
 
-class SCAdapter(val items : ArrayList<Survey>, val context: Context): RecyclerView.Adapter<SCHolder>() {
+class SCAdapter(val items : ArrayList<Survey>, val context: Context, var listener:SCClick): RecyclerView.Adapter<SCHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SCHolder {
-        return SCHolder(LayoutInflater.from(context).inflate(R.layout.survey_chooser_holder, parent, false))
+        return SCHolder(LayoutInflater.from(context).inflate(R.layout.survey_chooser_holder, parent, false),listener)
     }
 
     override fun getItemCount(): Int {

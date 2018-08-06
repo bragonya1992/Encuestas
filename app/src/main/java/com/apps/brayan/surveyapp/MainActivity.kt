@@ -39,30 +39,6 @@ class MainActivity : AppCompatActivity() {
 
     fun goToSurveyScreen(){
         var intent = Intent(this,SurveyChooser::class.java)
-        intent.putExtra(SurveyConstants.SURVEY_BODY_INTENT,"{\n" +
-                " pages: [\n" +
-                "  {\n" +
-                "   name: \"page1\",\n" +
-                "   elements: [\n" +
-                "    {\n" +
-                "     type: \"radiogroup\",\n" +
-                "     name: \"question1\",\n" +
-                "     title: \"Ana me ama? si o no\",\n" +
-                "     choices: [\n" +
-                "      {\n" +
-                "       value: \"item1\",\n" +
-                "       text: \"si\"\n" +
-                "      },\n" +
-                "      {\n" +
-                "       value: \"item2\",\n" +
-                "       text: \"no\"\n" +
-                "      }\n" +
-                "     ]\n" +
-                "    }\n" +
-                "   ]\n" +
-                "  }\n" +
-                " ]\n" +
-                "}")
         startActivity(intent)
     }
 
