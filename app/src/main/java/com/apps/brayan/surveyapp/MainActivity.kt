@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.apps.brayan.surveyapp.coreApp.SurveyConstants
+import com.apps.brayan.surveyapp.surveychooser.SurveyChooser
 import kotlinx.android.synthetic.main.activity_main.*
 
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goToSurveyScreen(){
-        var intent = Intent(this,SurveyScreen::class.java)
+        var intent = Intent(this,SurveyChooser::class.java)
         intent.putExtra(SurveyConstants.SURVEY_BODY_INTENT,"{\n" +
                 " pages: [\n" +
                 "  {\n" +
