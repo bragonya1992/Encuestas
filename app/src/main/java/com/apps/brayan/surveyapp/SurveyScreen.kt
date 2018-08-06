@@ -7,6 +7,7 @@ import android.widget.Toast
 import android.webkit.WebViewClient
 import android.webkit.WebChromeClient
 import android.view.Window
+import android.webkit.JavascriptInterface
 import com.apps.brayan.surveyapp.coreApp.JsonSurveyGenerator
 import com.apps.brayan.surveyapp.coreApp.SurveyConstants
 import com.apps.brayan.surveyapp.coreApp.SurveyManagerFile
@@ -42,8 +43,16 @@ class SurveyScreen : AppCompatActivity() {
                 Toast.makeText(activity, "Oh no! $description", Toast.LENGTH_SHORT).show()
             }
         })
+            addJavascriptInterface(JavaScriptInterface(),"JSInterface")
 
             loadUrl(SurveyConstants.SURVEY_DOMAIN+SurveyConstants.SURVEY_MAIN)
+        }
+    }
+
+    private inner class JavaScriptInterface {
+        @JavascriptInterface
+        fun sendData(fromWeb: String) {
+            Toast.makeText(applicationContext, "sending data "+fromWeb, Toast.LENGTH_SHORT).show()
         }
     }
 

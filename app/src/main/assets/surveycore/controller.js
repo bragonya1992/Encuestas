@@ -8,6 +8,7 @@ function loadSurvey(jsonObject){
             document
                 .querySelector('#surveyResult')
                 .innerHTML = "result: " + JSON.stringify(result.data);
+            JSInterface.sendData(JSON.stringify(result.data));
         });
 
     $("#surveyElement").Survey({model: survey});
