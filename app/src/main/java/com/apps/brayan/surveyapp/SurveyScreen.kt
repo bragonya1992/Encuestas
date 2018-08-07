@@ -59,6 +59,11 @@ class SurveyScreen : AppCompatActivity() {
             val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(domainSurvey)
             myRef.child(surveyId).push().setValue(SurveyResponse(System.currentTimeMillis().toString(),fromWeb))
         }
+
+        @JavascriptInterface
+        fun back() {
+            finish()
+        }
     }
 
 }
