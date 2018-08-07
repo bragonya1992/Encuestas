@@ -18,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_survey_screen.*
 
 class SurveyScreen : AppCompatActivity() {
     lateinit var surveyId:String
-    val domainSurvey = "https://bdsurvey-4d97c.firebaseio.com/organizacionheifer/respuestas"
+    val domainSurvey = "https://bdsurvey-4d97c.firebaseio.com/proyectos/organizacionheifer/respuestas"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.requestFeature(Window.FEATURE_PROGRESS)

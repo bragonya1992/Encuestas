@@ -34,7 +34,7 @@ class SurveyRepository() {
 
     init {
         val database = FirebaseDatabase.getInstance()
-        myRef = database.getReferenceFromUrl("https://bdsurvey-4d97c.firebaseio.com/organizacionheifer/encuestas")
+        myRef = database.getReferenceFromUrl("https://bdsurvey-4d97c.firebaseio.com/proyectos/organizacionheifer/encuestas")
     }
 
 
