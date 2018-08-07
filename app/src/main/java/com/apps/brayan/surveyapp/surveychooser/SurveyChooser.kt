@@ -47,6 +47,7 @@ class SurveyChooser : AppCompatActivity(), SCClick {
     override fun onClick(item: Survey) {
         val intent = Intent(this,SurveyScreen::class.java)
         intent.putExtra(SurveyConstants.SURVEY_BODY_INTENT,item.body)
+        intent.putExtra(SurveyConstants.SURVEY_ID_INTENT,item.id)
         startActivity(intent)
     }
 }

@@ -11,16 +11,20 @@ import android.webkit.JavascriptInterface
 import com.apps.brayan.surveyapp.coreApp.JsonSurveyGenerator
 import com.apps.brayan.surveyapp.coreApp.SurveyConstants
 import com.apps.brayan.surveyapp.coreApp.SurveyManagerFile
+import com.apps.brayan.surveyapp.models.SurveyResponse
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.activity_survey_screen.*
 
 
 class SurveyScreen : AppCompatActivity() {
-
+    lateinit var surveyId:String
+    val domainSurvey = "https://bdsurvey-4d97c.firebaseio.com/organizacionheifer/respuestas"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.requestFeature(Window.FEATURE_PROGRESS)
         setContentView(R.layout.activity_survey_screen)
         val surveyContent:String = intent.getStringExtra(SurveyConstants.SURVEY_BODY_INTENT)
+        surveyId = intent.getStringExtra(SurveyConstants.SURVEY_ID_INTENT)
         SurveyManagerFile.setupSurveyToFile(surveyContent,this)
         SurveyManagerFile.readFile(this)
         setupWebView(webViewSurvey)
@@ -52,7 +56,8 @@ class SurveyScreen : AppCompatActivity() {
     private inner class JavaScriptInterface {
         @JavascriptInterface
         fun sendData(fromWeb: String) {
-            Toast.makeText(applicationContext, "sending data "+fromWeb, Toast.LENGTH_SHORT).show()
+            val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(domainSurvey)
+            myRef.child(surveyId).push().setValue(SurveyResponse(System.currentTimeMillis().toString(),fromWeb))
         }
     }
 
