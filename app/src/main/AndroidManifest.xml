@@ -20,8 +20,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SurveyScreen" />
-        <activity android:name=".surveychooser.SurveyChooser"></activity>
+        <activity android:label="@string/survey_screen_title" android:name=".SurveyScreen" />
+        <activity android:label="@string/survey_chooser_name" android:name=".surveychooser.SurveyChooser"></activity>
     </application>
 
 </manifest>

@@ -3,4 +3,6 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+    <string name="survey_chooser_name">Tus Encuestas</string>
+    <string name="survey_screen_title">Llena tu encuesta</string>
 </resources>
