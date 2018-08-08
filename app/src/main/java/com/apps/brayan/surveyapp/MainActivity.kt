@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun goToSurveyScreen(){
-        var intent = Intent(this,SurveyChooser::class.java)
+        var intent = Intent(this,LoginActivity::class.java)
         startActivity(intent)
     }
 
