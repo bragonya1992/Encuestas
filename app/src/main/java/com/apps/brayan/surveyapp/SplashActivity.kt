@@ -25,7 +25,11 @@ class SplashActivity : AppCompatActivity() {
     fun initialFlow(){
         val actualUser = SessionManager.getActualUser(this)
         if(actualUser != null){
-            updateData(actualUser.id)
+            if(SessionManager.isNetworkAvailable(this)) {
+                updateData(actualUser.id)
+            }else{
+                goToOrganizationScreen()
+            }
         }else{
             logo.postDelayed(Runnable {
                 val intent = Intent(this, LoginActivity::class.java)

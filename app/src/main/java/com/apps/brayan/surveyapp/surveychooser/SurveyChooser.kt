@@ -36,7 +36,7 @@ class SurveyChooser : AppCompatActivity(), SCClick {
         model.getSurveys().observe(this, Observer {
             showNewDataSet(it)
         })
-        model.fetchSurveysByOrganization(organizationName)
+        model.fetchSurveysByOrganization(organizationName,this)
     }
 
     fun showNewDataSet(list: ArrayList<Survey>?){

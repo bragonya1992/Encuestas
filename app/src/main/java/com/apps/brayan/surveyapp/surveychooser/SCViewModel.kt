@@ -3,6 +3,7 @@ package com.apps.brayan.surveyapp.surveychooser
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import com.apps.brayan.surveyapp.SurveyRepository
 import com.apps.brayan.surveyapp.models.Survey
 
@@ -18,8 +19,8 @@ class SCViewModel : ViewModel() {
         return surveyList
     }
 
-    fun fetchSurveysByOrganization(organizationName:String){
-        repository.fetchSurveys(surveyList,organizationName)
+    fun fetchSurveysByOrganization(organizationName:String, context: Context){
+        repository.fetchSurveys(surveyList,organizationName,context)
     }
 
 

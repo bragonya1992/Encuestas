@@ -25,6 +25,7 @@ import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import com.apps.brayan.surveyapp.coreApp.SessionManager
 import com.apps.brayan.surveyapp.models.User
 import com.apps.brayan.surveyapp.organizationscreen.OrganizationScreen
@@ -157,32 +158,36 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun firebaseValidations(userId:String, password: String){
-        val finalUrl = usersDomain+userId
-        val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
-        val postListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot!=null){
-                    val user = dataSnapshot.getValue(User::class.java)
-                    if(user!=null){
-                        if(user.password.equals(password)){
-                            user.id = userId
-                            SessionManager.createUser(applicationContext,user)
-                            finalStep(true)
-                        }else{
+        if(SessionManager.isNetworkAvailable(this)) {
+            val finalUrl = usersDomain + userId
+            val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
+            val postListener = object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot != null) {
+                        val user = dataSnapshot.getValue(User::class.java)
+                        if (user != null) {
+                            if (user.password.equals(password)) {
+                                user.id = userId
+                                SessionManager.createUser(applicationContext, user)
+                                finalStep(true)
+                            } else {
+                                finalStep(false)
+                            }
+                        } else {
                             finalStep(false)
                         }
-                    }else{
+                    } else {
                         finalStep(false)
                     }
-                }else{
+                }
+
+                override fun onCancelled(databaseError: DatabaseError) {
                     finalStep(false)
                 }
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                finalStep(false)
-            }
+            myRef.addValueEventListener(postListener)
+        }else{
+            Toast.makeText(this,getString(R.string.error_internet_connection),Toast.LENGTH_SHORT).show()
         }
-        myRef.addValueEventListener(postListener)
     }
 }
