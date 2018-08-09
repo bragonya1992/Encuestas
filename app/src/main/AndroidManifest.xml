@@ -19,11 +19,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".SurveyScreen"
@@ -38,7 +34,13 @@
             android:name=".organizationscreen.OrganizationScreen"
             android:label="@string/organization_screen_title"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".SplashActivity"></activity>
+        <activity android:name=".SplashActivity" android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
