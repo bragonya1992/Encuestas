@@ -23,8 +23,11 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
+import android.content.Intent
 import android.util.Log
+import com.apps.brayan.surveyapp.coreApp.SessionManager
 import com.apps.brayan.surveyapp.models.User
+import com.apps.brayan.surveyapp.organizationscreen.OrganizationScreen
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -36,7 +39,7 @@ import kotlinx.android.synthetic.main.activity_login.*
  * A login screen that offers login via email/password.
  */
 class LoginActivity : AppCompatActivity() {
-
+    var usersDomain = "https://bdsurvey-4d97c.firebaseio.com/usuarios/"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -144,6 +147,8 @@ class LoginActivity : AppCompatActivity() {
         showProgress(false)
 
         if (success!!) {
+            val intent = Intent(this,OrganizationScreen::class.java)
+            startActivity(intent)
             finish()
         } else {
             password.error = getString(R.string.error_incorrect_password)
@@ -152,14 +157,15 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun firebaseValidations(userId:String, password: String){
-        var usersDomain = "https://bdsurvey-4d97c.firebaseio.com/usuarios/"+userId
-        val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(usersDomain)
+        val finalUrl = usersDomain+userId
+        val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot!=null){
                     val user = dataSnapshot.getValue(User::class.java)
                     if(user!=null){
                         if(user.password.equals(password)){
+                            SessionManager.createUser(applicationContext,user)
                             finalStep(true)
                         }else{
                             finalStep(false)
@@ -173,9 +179,7 @@ class LoginActivity : AppCompatActivity() {
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Getting Post failed, log a message
                 finalStep(false)
-                // ...
             }
         }
         myRef.addValueEventListener(postListener)

@@ -33,7 +33,12 @@
             android:label="@string/survey_chooser_name" />
         <activity
             android:name=".LoginActivity"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".organizationscreen.OrganizationScreen"
+            android:label="@string/organization_screen_title"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".SplashActivity"></activity>
     </application>
 
 </manifest>
