@@ -19,6 +19,7 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
+        setupFirebaseDatabase()
         initialFlow()
     }
 
@@ -69,5 +70,9 @@ class SplashActivity : AppCompatActivity() {
         var intent = Intent(applicationContext, OrganizationScreen::class.java)
         startActivity(intent)
         finish()
+    }
+
+    fun setupFirebaseDatabase(){
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
     }
 }
