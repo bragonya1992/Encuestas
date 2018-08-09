@@ -18,8 +18,8 @@ class SCViewModel : ViewModel() {
         return surveyList
     }
 
-    fun fetchAllSurveys(){
-        repository.fetchSurveys(surveyList)
+    fun fetchSurveysByOrganization(organizationName:String){
+        repository.fetchSurveys(surveyList,organizationName)
     }
 
 

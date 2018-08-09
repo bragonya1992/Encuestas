@@ -7,17 +7,25 @@ import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.apps.brayan.surveyapp.LoginActivity
 import com.apps.brayan.surveyapp.R
 import com.apps.brayan.surveyapp.SurveyScreen
 import com.apps.brayan.surveyapp.coreApp.SessionManager
+import com.apps.brayan.surveyapp.coreApp.SurveyConstants
+import com.apps.brayan.surveyapp.surveychooser.SCAdapter
+import com.apps.brayan.surveyapp.surveychooser.SurveyChooser
 import kotlinx.android.synthetic.main.activity_organization_screen.*
+import kotlinx.android.synthetic.main.activity_survey_chooser.*
 import kotlinx.android.synthetic.main.app_bar_organization_screen.*
+import kotlinx.android.synthetic.main.content_organization_screen.*
 import kotlinx.android.synthetic.main.nav_header_organization_screen.*
 
-class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OrgClick {
+
+    lateinit var adapter: OrgAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +38,16 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        setupRecyclerView()
+    }
+
+    fun setupRecyclerView(){
+        recyclerOrganization.layoutManager = LinearLayoutManager(this)
+        var arrayOrgs:ArrayList<String> = ArrayList()
+        SessionManager.getActualUser(this)?.orgaizaciones?.keys?.toCollection(arrayOrgs)
+        adapter =  OrgAdapter(arrayOrgs,this,this)
+        recyclerOrganization.adapter = adapter
     }
 
     override fun onBackPressed() {
@@ -72,5 +90,11 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onClick(orgName: String) {
+        val intent = Intent(this,SurveyChooser::class.java)
+        intent.putExtra(SurveyConstants.KEY_ORG,orgName)
+        startActivity(intent)
     }
 }

@@ -16,12 +16,14 @@ class SurveyChooser : AppCompatActivity(), SCClick {
 
     lateinit var model:SCViewModel
     lateinit var adapter: SCAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey_chooser)
+        val organizationName:String = intent.getStringExtra(SurveyConstants.KEY_ORG)
         model = ViewModelProviders.of(this).get(SCViewModel::class.java)
         setupRecyclerView()
-        fetchData()
+        fetchData(organizationName)
     }
 
     fun setupRecyclerView(){
@@ -30,11 +32,11 @@ class SurveyChooser : AppCompatActivity(), SCClick {
         recyclerSurveyChooser.adapter = adapter
     }
 
-    fun fetchData(){
+    fun fetchData(organizationName:String){
         model.getSurveys().observe(this, Observer {
             showNewDataSet(it)
         })
-        model.fetchAllSurveys()
+        model.fetchSurveysByOrganization(organizationName)
     }
 
     fun showNewDataSet(list: ArrayList<Survey>?){

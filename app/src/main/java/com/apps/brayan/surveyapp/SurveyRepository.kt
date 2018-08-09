@@ -14,9 +14,12 @@ import com.google.firebase.database.ValueEventListener
 
 
 class SurveyRepository() {
-    var myRef:DatabaseReference
+    var surveysDomain = "https://bdsurvey-4d97c.firebaseio.com/proyectos/{organization}/encuestas"
 
-    fun fetchSurveys(liveData:MutableLiveData<ArrayList<Survey>>){
+
+    fun fetchSurveys(liveData:MutableLiveData<ArrayList<Survey>>, organizationName:String){
+        val finalUrl = surveysDomain.replace("{organization}",organizationName)
+        val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
         val surveyListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val listSurveys = ArrayList<Survey>()
@@ -30,11 +33,6 @@ class SurveyRepository() {
             }
         }
         myRef.addListenerForSingleValueEvent(surveyListener)
-    }
-
-    init {
-        val database = FirebaseDatabase.getInstance()
-        myRef = database.getReferenceFromUrl("https://bdsurvey-4d97c.firebaseio.com/proyectos/organizacionheifer/encuestas")
     }
 
 

@@ -165,6 +165,7 @@ class LoginActivity : AppCompatActivity() {
                     val user = dataSnapshot.getValue(User::class.java)
                     if(user!=null){
                         if(user.password.equals(password)){
+                            user.id = userId
                             SessionManager.createUser(applicationContext,user)
                             finalStep(true)
                         }else{
