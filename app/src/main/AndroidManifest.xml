@@ -22,7 +22,8 @@
             android:label="@string/survey_screen_title" />
         <activity
             android:name=".surveychooser.SurveyChooser"
-            android:label="@string/survey_chooser_name" />
+            android:label="@string/survey_chooser_name"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

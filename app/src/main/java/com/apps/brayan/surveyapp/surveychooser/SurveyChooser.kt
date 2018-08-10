@@ -20,6 +20,7 @@ class SurveyChooser : AppCompatActivity(), SCClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_survey_chooser)
+        collapsing_toolbar.post { collapsing_toolbar.requestLayout() }
         val organizationName:String = intent.getStringExtra(SurveyConstants.KEY_ORG)
         model = ViewModelProviders.of(this).get(SCViewModel::class.java)
         setupRecyclerView()
