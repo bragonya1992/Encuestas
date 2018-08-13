@@ -2,6 +2,7 @@ package com.apps.brayan.surveyapp
 
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import android.os.Handler
 import com.apps.brayan.surveyapp.coreApp.Cache
 import com.apps.brayan.surveyapp.coreApp.NetworkManager
 import com.apps.brayan.surveyapp.models.OrgDetail
@@ -45,40 +46,42 @@ class SurveyRepository() {
     }
 
     fun fetchOrgDetails(organizationName: String,value:MutableLiveData<OrgDetail>, context: Context){
-        if(NetworkManager.isNetworkAvailable(context)) {
-            val finalUrl = orgDetailDomain.replace("{organization}", organizationName)
-            val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
-            val surveyListener = object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    var detail:OrgDetail? = null
-                    if(dataSnapshot!=null) {
-                        detail = dataSnapshot.getValue(OrgDetail::class.java)
-                        if(detail!=null) {
-                            detail.id = organizationName
-                            Cache.saveDetailCacheByOrganization(context, detail, organizationName)
-                            value.setValue(detail)
+        Handler().post {
+            if (NetworkManager.isNetworkAvailable(context)) {
+                val finalUrl = orgDetailDomain.replace("{organization}", organizationName)
+                val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
+                val surveyListener = object : ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        var detail: OrgDetail? = null
+                        if (dataSnapshot != null) {
+                            detail = dataSnapshot.getValue(OrgDetail::class.java)
+                            if (detail != null) {
+                                detail.id = organizationName
+                                Cache.saveDetailCacheByOrganization(context, detail, organizationName)
+                                value.setValue(detail)
+                            }
+                        }
+                        if (detail == null) {
+                            value.setValue(createOrgDetailByString(organizationName))
                         }
                     }
-                    if(detail==null){
-                        value.setValue(createOrgDetailByString(organizationName))
+
+                    override fun onCancelled(databaseError: DatabaseError) {
+                        val cache = Cache.getCacheOrganizationDetail(context, organizationName)
+                        if (cache != null)
+                            value.setValue(cache)
+                        else
+                            value.setValue(createOrgDetailByString(organizationName))
                     }
                 }
-
-                override fun onCancelled(databaseError: DatabaseError) {
-                    val cache = Cache.getCacheOrganizationDetail(context, organizationName)
-                    if (cache != null)
-                        value.setValue(cache)
-                    else
-                        value.setValue(createOrgDetailByString(organizationName))
-                }
+                myRef.addListenerForSingleValueEvent(surveyListener)
+            } else {
+                val cache = Cache.getCacheOrganizationDetail(context, organizationName)
+                if (cache != null)
+                    value.setValue(cache)
+                else
+                    value.setValue(createOrgDetailByString(organizationName))
             }
-            myRef.addListenerForSingleValueEvent(surveyListener)
-        }else{
-            val cache = Cache.getCacheOrganizationDetail(context, organizationName)
-            if (cache != null)
-                value.setValue(cache)
-            else
-                value.setValue(createOrgDetailByString(organizationName))
         }
     }
 
