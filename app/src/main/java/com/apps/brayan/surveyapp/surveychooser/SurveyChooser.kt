@@ -33,7 +33,7 @@ class SurveyChooser : AppCompatActivity(), SCClick {
 
     fun setupHeader(img:String?){
         if(img!=null){
-            Picasso.with(this).load(img).fit().centerCrop().error(R.drawable.ic_error_black_24dp).into(imgHeader)
+            Picasso.get().load(img).fit().centerCrop().error(R.drawable.ic_error_black_24dp).into(imgHeader)
         }
     }
 

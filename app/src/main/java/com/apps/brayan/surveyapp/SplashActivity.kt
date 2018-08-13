@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_splash.*
 class SplashActivity : AppCompatActivity() {
 
     var usersDomain = "https://bdsurvey-4d97c.firebaseio.com/usuarios/"
-
+    var firebaseInstance:FirebaseDatabase?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
@@ -64,16 +64,20 @@ class SplashActivity : AppCompatActivity() {
                 goToOrganizationScreen()
             }
         }
-        myRef.addValueEventListener(postListener)
+        myRef.addListenerForSingleValueEvent(postListener)
     }
 
     fun goToOrganizationScreen(){
-        var intent = Intent(applicationContext, OrganizationScreen::class.java)
+        val intent = Intent(applicationContext, OrganizationScreen::class.java)
         startActivity(intent)
         finish()
     }
 
     fun setupFirebaseDatabase(){
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+
+        if (firebaseInstance==null) {
+            firebaseInstance = FirebaseDatabase.getInstance()
+            firebaseInstance?.setPersistenceEnabled(true)
+        }
     }
 }
