@@ -1,24 +1,23 @@
 package com.apps.brayan.surveyapp.organizationscreen
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import com.apps.brayan.surveyapp.LoginActivity
 import com.apps.brayan.surveyapp.R
-import com.apps.brayan.surveyapp.SurveyScreen
 import com.apps.brayan.surveyapp.coreApp.SessionManager
 import com.apps.brayan.surveyapp.coreApp.SurveyConstants
-import com.apps.brayan.surveyapp.surveychooser.SCAdapter
+import com.apps.brayan.surveyapp.surveychooser.SCViewModel
 import com.apps.brayan.surveyapp.surveychooser.SurveyChooser
 import kotlinx.android.synthetic.main.activity_organization_screen.*
-import kotlinx.android.synthetic.main.activity_survey_chooser.*
 import kotlinx.android.synthetic.main.app_bar_organization_screen.*
 import kotlinx.android.synthetic.main.content_organization_screen.*
 import kotlinx.android.synthetic.main.nav_header_organization_screen.*
@@ -26,12 +25,14 @@ import kotlinx.android.synthetic.main.nav_header_organization_screen.*
 class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OrgClick {
 
     lateinit var adapter: OrgAdapter
+    lateinit var model:OrgViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_organization_screen)
         setSupportActionBar(toolbar)
 
+        model = ViewModelProviders.of(this).get(OrgViewModel::class.java)
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -43,11 +44,25 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     fun setupRecyclerView(){
-        recyclerOrganization.layoutManager = LinearLayoutManager(this)
+        recyclerOrganization.layoutManager = GridLayoutManager(this, 2)
         var arrayOrgs:ArrayList<String> = ArrayList()
         SessionManager.getActualUser(this)?.orgaizaciones?.keys?.toCollection(arrayOrgs)
-        adapter =  OrgAdapter(arrayOrgs,this,this)
+        adapter = OrgAdapter(ArrayList(),this,this)
         recyclerOrganization.adapter = adapter
+        setupAdapter(arrayOrgs)
+
+    }
+
+    fun setupAdapter(organizations: ArrayList<String>){
+        if(organizations!=null) {
+            model.getDetail().observe(this,Observer{
+                adapter.addLast(it!!)
+                adapter.notifyItemInserted(adapter.itemCount-1)
+            })
+            model.getDetailOrganizations(organizations,this)
+        }else{
+            // error
+        }
     }
 
     override fun onBackPressed() {
@@ -97,4 +112,6 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
         intent.putExtra(SurveyConstants.KEY_ORG,orgName)
         startActivity(intent)
     }
+
+
 }

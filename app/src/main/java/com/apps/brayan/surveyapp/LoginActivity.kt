@@ -26,6 +26,7 @@ import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import com.apps.brayan.surveyapp.coreApp.NetworkManager
 import com.apps.brayan.surveyapp.coreApp.SessionManager
 import com.apps.brayan.surveyapp.models.User
 import com.apps.brayan.surveyapp.organizationscreen.OrganizationScreen
@@ -158,7 +159,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun firebaseValidations(userId:String, password: String){
-        if(SessionManager.isNetworkAvailable(this)) {
+        if(NetworkManager.isNetworkAvailable(this)) {
             val finalUrl = usersDomain + userId
             val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
             val postListener = object : ValueEventListener {
