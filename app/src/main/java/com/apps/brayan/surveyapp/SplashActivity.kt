@@ -44,6 +44,7 @@ class SplashActivity : AppCompatActivity() {
     fun updateData(userId:String){
         val finalUrl = usersDomain+userId
         val myRef = FirebaseDatabase.getInstance().getReferenceFromUrl(finalUrl)
+        myRef.keepSynced(true)
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot!=null){
