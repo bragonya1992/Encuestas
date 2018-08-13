@@ -3,6 +3,7 @@ package com.apps.brayan.surveyapp.organizationscreen
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -11,6 +12,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import com.apps.brayan.surveyapp.LoginActivity
 import com.apps.brayan.surveyapp.R
 import com.apps.brayan.surveyapp.coreApp.SessionManager
@@ -21,6 +23,9 @@ import kotlinx.android.synthetic.main.activity_organization_screen.*
 import kotlinx.android.synthetic.main.app_bar_organization_screen.*
 import kotlinx.android.synthetic.main.content_organization_screen.*
 import kotlinx.android.synthetic.main.nav_header_organization_screen.*
+import android.support.v4.app.ActivityOptionsCompat
+import android.support.v7.widget.LinearLayoutManager
+
 
 class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, OrgClick {
 
@@ -44,7 +49,7 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
     }
 
     fun setupRecyclerView(){
-        recyclerOrganization.layoutManager = GridLayoutManager(this, 2)
+        recyclerOrganization.layoutManager = LinearLayoutManager(this)
         var arrayOrgs:ArrayList<String> = ArrayList()
         SessionManager.getActualUser(this)?.orgaizaciones?.keys?.toCollection(arrayOrgs)
         adapter = OrgAdapter(ArrayList(),this,this)
@@ -107,10 +112,16 @@ class OrganizationScreen : AppCompatActivity(), NavigationView.OnNavigationItemS
         return true
     }
 
-    override fun onClick(orgName: String) {
+    override fun onClick(orgName: String, imgView:View, img:String?) {
         val intent = Intent(this,SurveyChooser::class.java)
         intent.putExtra(SurveyConstants.KEY_ORG,orgName)
-        startActivity(intent)
+        intent.putExtra(SurveyConstants.IMG_ORG,img)
+        val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, imgView, "imgTransition")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            startActivity(intent,options.toBundle())
+        }else{
+            startActivity(intent)
+        }
     }
 
 

@@ -16,6 +16,6 @@ class OrgHolder (itemView: View?, var listener: OrgClick) : RecyclerView.ViewHol
         if(item.logo!=null)
             Picasso.with(itemView.context).load(item.logo).fit().centerCrop().error(R.drawable.ic_error_black_24dp).into(itemView.imageOrgHolder)
         itemView.orgName.text = item.nombre
-        itemView.setOnClickListener({ listener.onClick(item.id) })
+        itemView.setOnClickListener({ listener.onClick(item.id, itemView.imageOrgHolder,item.logo) })
     }
 }
