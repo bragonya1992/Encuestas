@@ -33,7 +33,7 @@ class SplashActivity : AppCompatActivity() {
                 goToOrganizationScreen()
             }
         }else{
-            logo.postDelayed(Runnable {
+            logo.postDelayed({
                 val intent = Intent(this, LoginActivity::class.java)
                 startActivity(intent)
                 finish()
